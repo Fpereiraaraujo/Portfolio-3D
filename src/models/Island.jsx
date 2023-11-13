@@ -16,12 +16,98 @@ import { useGLTF } from "@react-three/drei";
 import { a } from "@react-spring/three";
 
 import islandScene from "../assets/3d/island.glb";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { useThree } from "@react-three/fiber";
 
-const Island = (props) => {
+const Island = ({ isRotating, setIsRotating, ...props }) => {
   const islandRef = useRef();
+
+  const { gl, viewport } = useThree();
   const { nodes, materials } = useGLTF(islandScene);
 
+  const lastX = useRef(0);
+  const rotationSpeed = useRef(0);
+  const dampingFactor = 0.95
+
+  
+
+  const handlePointerDown = (e) => {
+    e.stopProgation();
+    e.preventDefault();
+    setIsRotating(true);
+
+
+    const clientX = e.touches
+      ? e.touches[0].clientX
+      : e.clientX
+
+    lastX.current = clientX;
+  }
+
+  const handlePointerUp = (e) => {
+    e.stopProgation();
+    e.preventDefault();
+    setIsRotating(false);
+
+    const clientX = e.touches
+      ? e.touches[0].clientX
+      : e.clientX
+
+    const delta = (clientX - lastX.current) / viewport.width;
+
+
+    islandRef.current.rotation.y += delta * 0.01 * Math.PI;
+    lastX.current = clientX;
+    rotationSpeed.current = delta * 0.01 * Math.PI
+
+  }
+  const handlePointerMove = (e) => {
+    e.stopProgation();
+    e.preventDefault();
+
+    if (isRotating) {
+      handlerPointerUp(e)
+    }
+  }
+
+  const handleKeyDown = (event) => {
+    if (event.key === "ArrowLeft") {
+      if (!isRotating) setIsRotating(true);
+
+      islandRef.current.rotation.y += 0.005 * Math.PI;
+      rotationSpeed.current = 0.007;
+    } else if (event.key === "ArrowRight") {
+      if (!isRotating) setIsRotating(true);
+
+      islandRef.current.rotation.y -= 0.005 * Math.PI;
+      rotationSpeed.current = -0.007;
+    }
+  };
+
+    const handleKeyUp = (event) => {
+      if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+        setIsRotating(false);
+      }
+    };
+
+  useEffect(() => {
+    // Add event listeners for pointer and keyboard events
+    const canvas = gl.domElement;
+    canvas.addEventListener("pointerdown", handlePointerDown);
+    canvas.addEventListener("pointerup", handlePointerUp);
+    canvas.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
+
+    // Remove event listeners when component unmounts
+    return () => {
+      canvas.removeEventListener("pointerdown", handlePointerDown);
+      canvas.removeEventListener("pointerup", handlePointerUp);
+      canvas.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
+    };
+  }, [gl, handlePointerDown, handlePointerUp, handlePointerMove]);
 
   return (
     // {Island 3D model from: https://sketchfab.com/3d-models/foxs-islands-163b68e09fcc47618450150be7785907}
