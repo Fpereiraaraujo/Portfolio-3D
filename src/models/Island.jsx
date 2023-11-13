@@ -19,7 +19,7 @@ import islandScene from "../assets/3d/island.glb";
 import { useEffect, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 
-const Island = ({ isRotating, setIsRotating, ...props }) => {
+export function Island({ isRotating, setIsRotating, setCurrentStage, ...props }) {
   const islandRef = useRef();
 
   const { gl, viewport } = useThree();
@@ -29,9 +29,9 @@ const Island = ({ isRotating, setIsRotating, ...props }) => {
   const rotationSpeed = useRef(0);
   const dampingFactor = 0.95
 
-  
 
-   const handlePointerDown = (event) => {
+
+  const handlePointerDown = (event) => {
     event.stopPropagation();
     event.preventDefault();
     setIsRotating(true);
@@ -47,29 +47,28 @@ const Island = ({ isRotating, setIsRotating, ...props }) => {
     setIsRotating(false);
   };
 
-   const handlePointerMove = (event) => {
+  const handlePointerMove = (event) => {
     event.stopPropagation();
     event.preventDefault();
     if (isRotating) {
-      // If rotation is enabled, calculate the change in clientX position
+
       const clientX = event.touches ? event.touches[0].clientX : event.clientX;
 
-      // calculate the change in the horizontal position of the mouse cursor or touch input,
-      // relative to the viewport's width
+
       const delta = (clientX - lastX.current) / viewport.width;
 
-      // Update the island's rotation based on the mouse/touch movement
+
       islandRef.current.rotation.y += delta * 0.01 * Math.PI;
 
-      // Update the reference for the last clientX position
+
       lastX.current = clientX;
 
-      // Update the rotation speed
+
       rotationSpeed.current = delta * 0.01 * Math.PI;
     }
   };
 
-  // Handle keydown events
+
   const handleKeyDown = (event) => {
     if (event.key === "ArrowLeft") {
       if (!isRotating) setIsRotating(true);
@@ -84,7 +83,7 @@ const Island = ({ isRotating, setIsRotating, ...props }) => {
     }
   };
 
-    // Handle keyup events
+
   const handleKeyUp = (event) => {
     if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
       setIsRotating(false);
@@ -92,7 +91,7 @@ const Island = ({ isRotating, setIsRotating, ...props }) => {
   };
 
   useEffect(() => {
-    // Add event listeners for pointer and keyboard events
+
     const canvas = gl.domElement;
     canvas.addEventListener("pointerdown", handlePointerDown);
     canvas.addEventListener("pointerup", handlePointerUp);
@@ -100,7 +99,7 @@ const Island = ({ isRotating, setIsRotating, ...props }) => {
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
 
-    // Remove event listeners when component unmounts
+
     return () => {
       canvas.removeEventListener("pointerdown", handlePointerDown);
       canvas.removeEventListener("pointerup", handlePointerUp);
@@ -112,21 +111,20 @@ const Island = ({ isRotating, setIsRotating, ...props }) => {
 
 
 
-  // This function is called on each frame update
   useFrame(() => {
-    // If not rotating, apply damping to slow down the rotation (smoothly)
+
     if (!isRotating) {
-      // Apply damping factor
+
       rotationSpeed.current *= dampingFactor;
 
-      // Stop rotation when speed is very small
+
       if (Math.abs(rotationSpeed.current) < 0.001) {
         rotationSpeed.current = 0;
       }
 
       islandRef.current.rotation.y += rotationSpeed.current;
     } else {
-      // When rotating, determine the current stage based on island's orientation
+
       const rotation = islandRef.current.rotation.y;
 
       /**
@@ -148,7 +146,7 @@ const Island = ({ isRotating, setIsRotating, ...props }) => {
       const normalizedRotation =
         ((rotation % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
 
-      
+
       switch (true) {
         case normalizedRotation >= 5.45 && normalizedRotation <= 5.85:
           setCurrentStage(4);
@@ -169,7 +167,7 @@ const Island = ({ isRotating, setIsRotating, ...props }) => {
   });
 
   return (
-    // {Island 3D model from: https://sketchfab.com/3d-models/foxs-islands-163b68e09fcc47618450150be7785907}
+
     <a.group ref={islandRef} {...props}>
       <mesh
         geometry={nodes.polySurface944_tree_body_0.geometry}
@@ -202,5 +200,3 @@ const Island = ({ isRotating, setIsRotating, ...props }) => {
     </a.group>
   );
 }
-
-export default Island;
