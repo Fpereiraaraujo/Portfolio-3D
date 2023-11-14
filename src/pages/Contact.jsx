@@ -2,7 +2,7 @@ import emailjs from "@emailjs/browser";
 import { Canvas } from "@react-three/fiber";
 import { Suspense, useRef, useState } from "react";
 
-// import { Fox } from "../models";
+import { Fox } from "../models";
 import useAlert from "../hooks/useAlert";
 import { Alert, Loader } from "../components";
 
@@ -138,7 +138,7 @@ const Contact = () => {
       </div>
 
       <div className='lg:w-1/2 w-full lg:h-auto md:h-[550px] h-[350px]'>
-        {/* <Canvas
+        <Canvas
           camera={{
             position: [0, 0, 5],
             fov: 75,
@@ -164,7 +164,7 @@ const Contact = () => {
               scale={[0.5, 0.5, 0.5]}
             />
           </Suspense>
-        </Canvas> */}
+        </Canvas>
       </div>
     </section>
   );
