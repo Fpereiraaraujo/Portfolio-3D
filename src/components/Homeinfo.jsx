@@ -19,7 +19,7 @@ const HomeInfo = ({ currentStage }) => {
             <div className='info-box'>
                 <p className='font-medium sm:text-xl text-center'>
 
-                    Trabalhei com muitas empresas <br /> e adquiri muitas habilidades ao longo do caminho
+                    Trabalhei com as melhroes empresas <br /> e adquiri muitas habilidades ao longo do caminho
                 </p>
 
                 <Link to='/about' className='neo-brutalism-white neo-btn'>

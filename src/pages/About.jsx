@@ -44,7 +44,7 @@ const About = () => {
       </div>
 
       <div className='py-16'>
-        <h3 className='subhead-text'>Experiencias</h3>
+        <h3 className='subhead-text'>experiências</h3>
         <div className='mt-5 flex flex-col gap-3 text-slate-500'>
           <p>
           Trabalhei com algumas das melhores empresas, aprimorando minhas habilidades e

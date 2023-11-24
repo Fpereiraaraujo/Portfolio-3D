@@ -97,7 +97,7 @@ export const skills = [
 
 export const experiences = [
     {
-        title: "Estagiario Fullstack",
+        title: "Estagiário Fullstack",
         company_name: "Renault Group",
         icon: starbucks,
         iconBg: "#accbe1",
@@ -112,7 +112,7 @@ export const experiences = [
         ],
     },
     {
-        title: "Estagiario de Engenharia Digital",
+        title: "Estagiário de Engenharia Digital",
         company_name: "Sig Group",
         icon: tesla,
         iconBg: "#fbc3bc",
