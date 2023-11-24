@@ -103,10 +103,12 @@ export const experiences = [
         iconBg: "#accbe1",
         date: "Fev 2023 - Atual",
         points: [
-            "Developing and maintaining web applications using React.js and other related technologies.",
-            "Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.",
-            "Implementing responsive design and ensuring cross-browser compatibility.",
-            "Participating in code reviews and providing constructive feedback to other developers.",
+            "Arquiteto sistemas de back-end usando Java ou python",
+            "integração de APIs externas para obtenção e envio de dados em tempo real.",
+            "Uso das principais ferramentas de backend como Node.js, Django , Express.js, ASP.NET Core e etc.",
+            "Otimização de desempenho de páginas da web através do carregamento assíncrono de recursos",
+            "Desenvolvimento de scripts e programas para automação de processos em Python",
+            "Desenvolvimento de aplicações Web junto com o time do frontend",
         ],
     },
     {
