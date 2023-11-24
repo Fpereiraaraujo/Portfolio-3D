@@ -50,6 +50,7 @@ const About = () => {
           Trabalhei com algumas das melhores empresas, aprimorando minhas habilidades e
             aliando-se a pessoas inteligentes. Aqui está o resumo:
           </p>
+          
         </div>
 
         <div className='mt-12 flex'>
